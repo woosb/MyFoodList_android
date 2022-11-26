@@ -1,6 +1,12 @@
 package com.example.myfoodlist;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -15,57 +21,59 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private EditText et_userId;
+    private Button btn_login;
+    private Button btn_move;
+    private TextView tv_main;
+
+    private EditText et_subParam;
+    private String str_subParam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        tv_main = findViewById(R.id.tv_main);
+        et_userId = findViewById(R.id.et_userId);
+        btn_login = findViewById(R.id.btn_login);
+        btn_move = findViewById(R.id.btn_move);
+        et_subParam = findViewById(R.id.et_subParam);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        tv_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                tv_main.setText("누르지 마세요");
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        //딜레이 후 시작할 코드 작성
+                        tv_main.setText("이것저것아무거나 내마음데로");
+                    }
+                }, 600);// 0.6초 정도 딜레이를 준 후 시작
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Editable text = et_userId.getText();
+                et_userId.setText(text + "라고 하면 안되요");
+            }
+        });
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        btn_move.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                str_subParam = et_subParam.getText().toString();
+                Intent intent = new Intent(MainActivity.this, SubActivity.class);
+                intent.putExtra("str_subParma", str_subParam);
+                startActivity(intent); // 엑티비티 이동
+            }
+        });
     }
 }
