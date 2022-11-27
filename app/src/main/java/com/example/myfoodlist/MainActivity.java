@@ -5,23 +5,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.widget.*;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import com.example.myfoodlist.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText et_userId;
     private Button btn_login;
     private Button btn_move;
+    private Button btn_nav;
+    private Button btn_sharedPreferences;
     private TextView tv_main;
 
     private EditText et_subParam;
@@ -36,10 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
         tv_main = findViewById(R.id.tv_main);
         et_userId = findViewById(R.id.et_userId);
+
         btn_login = findViewById(R.id.btn_login);
         btn_move = findViewById(R.id.btn_move);
+        btn_nav = findViewById(R.id.btn_nav);
+        btn_sharedPreferences = findViewById(R.id.btn_sharedPreferences);
+
         et_subParam = findViewById(R.id.et_subParam);
         img_main = findViewById(R.id.img_main);
+
 
         img_main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +78,22 @@ public class MainActivity extends AppCompatActivity {
                 str_subParam = et_subParam.getText().toString();
                 Intent intent = new Intent(MainActivity.this, SubActivity.class);
                 intent.putExtra("str_subParma", str_subParam);
+                startActivity(intent); // 엑티비티 이동
+            }
+        });
+
+        btn_nav.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NavActivity.class);
+                startActivity(intent); // 엑티비티 이동
+            }
+        });
+
+        btn_sharedPreferences.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SharedPreferencesEx.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
