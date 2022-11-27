@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -29,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText et_subParam;
     private String str_subParam;
 
+    private ImageView img_main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         btn_move = findViewById(R.id.btn_move);
         et_subParam = findViewById(R.id.et_subParam);
+        img_main = findViewById(R.id.img_main);
+
+        img_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "이미지 클릭", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         tv_main.setOnClickListener(new View.OnClickListener() {
             @Override

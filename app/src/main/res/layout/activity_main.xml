@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         tools:context=".MainActivity">
 
     <TextView
@@ -39,6 +40,18 @@
             android:layout_height="wrap_content"
             android:text="서브페이지 이동"/>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+        <ImageView
+                android:id="@+id/img_main"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher"
+                />
+    </LinearLayout>
 
 
 </LinearLayout>
