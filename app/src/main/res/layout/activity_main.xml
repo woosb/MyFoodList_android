@@ -71,4 +71,10 @@
             android:layout_height="wrap_content"
             android:text="webView"/>
 
+    <Button
+            android:id="@+id/btn_customNav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="customNav"/>
+
 </LinearLayout>

@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_nav;
     private Button btn_sharedPreferences;
     private Button btn_webView;
+    private Button btn_customNav;
     private TextView tv_main;
 
     private EditText et_subParam;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         btn_nav = findViewById(R.id.btn_nav);
         btn_sharedPreferences = findViewById(R.id.btn_sharedPreferences);
         btn_webView = findViewById(R.id.btn_webView);
+        btn_customNav = findViewById(R.id.btn_customNav);
 
         et_subParam = findViewById(R.id.et_subParam);
         img_main = findViewById(R.id.img_main);
@@ -104,6 +106,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, WebViewEx.class);
+                startActivity(intent); // 엑티비티 이동
+            }
+        });
+
+        btn_customNav.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CustomNavMenu.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
