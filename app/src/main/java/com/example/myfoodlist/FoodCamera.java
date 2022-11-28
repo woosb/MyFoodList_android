@@ -9,6 +9,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,10 +21,13 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class FoodCamera extends AppCompatActivity {
 
@@ -31,19 +35,24 @@ public class FoodCamera extends AppCompatActivity {
     private String imageFilePath;
     private Uri photoUri;
 
+    private MediaScanner mMediaScanner; // 사진 저장 시 갤러리 폴더에 바로 반영사항을 업데이트 시켜주려면 이 것이 필요하다(미디어 스캐닝)
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_camera);
 
+        // 사진 저장 후 미디어 스캐닝을 돌려줘야 갤러리에 반영됨.
+        mMediaScanner = MediaScanner.getInstance(getApplicationContext());
+
 
         //권한체크
         TedPermission.create()
-                        .setPermissionListener(permissionListener)
-                        .setRationaleMessage("카메라 권한이 필요합니다.")
-                                .setDeniedMessage("거부하셨습니다.")
-                                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).check();
-
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("거부하셨습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).check();
 
         findViewById(R.id.btn_capture).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +63,7 @@ public class FoodCamera extends AppCompatActivity {
                     try{
                         photoFile = createImageFile();
                     }catch(IOException e){
-
+                        e.printStackTrace();
                     }
 
                     if(photoFile != null){
@@ -65,6 +74,7 @@ public class FoodCamera extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     @Override
@@ -88,6 +98,47 @@ public class FoodCamera extends AppCompatActivity {
             } else {
                 exifDegree = 0;
             }
+
+            String result = "";
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.getDefault());
+            Date curDate = new Date(System.currentTimeMillis());
+            String filename = formatter.format(curDate);
+
+            String strFolderName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + "test" + File.separator;
+            File file = new File(strFolderName);
+
+            if(!file.exists()){
+                file.mkdir();
+            }
+
+            File f = new File(strFolderName + "/" + filename + ".png");
+            result = f.getPath();
+
+            FileOutputStream fOut = null;
+            try{
+                fOut = new FileOutputStream(f);
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                result = "Save Error fOut";
+            }
+
+            //비트맵 사진 폴더 경로에 저장
+            rotate(bitmap, exifDegree).compress(Bitmap.CompressFormat.PNG, 70, fOut);
+            try{
+                fOut.flush();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                fOut.close();
+                //방금 저장된 사진을 갤러리 폴더 반영 및 최신화
+                mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".png");
+            }catch(IOException e){
+                e.printStackTrace();
+                result = "File close Error";
+            }
+
 
             ((ImageView) findViewById(R.id.iv_result)).setImageBitmap(rotate(bitmap, exifDegree));
         }
@@ -116,6 +167,9 @@ public class FoodCamera extends AppCompatActivity {
         File image = File.createTempFile(imageFileName,
                 ".jpg",
                 storageDir);
+
+        //TODO
+        Toast.makeText(getApplicationContext(), storageDir.toString(), Toast.LENGTH_LONG).show();
 
         imageFilePath = image.getAbsolutePath();
         return image;

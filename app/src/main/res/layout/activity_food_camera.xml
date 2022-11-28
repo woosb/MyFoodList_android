@@ -11,11 +11,12 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    <ImageView
-            android:id="@+id/iv_result"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_weight="1">
+        <ImageView
+                android:id="@+id/iv_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,5 +29,6 @@
                 android:text="촬영"/>
 
     </LinearLayout>
+
 
 </LinearLayout>
