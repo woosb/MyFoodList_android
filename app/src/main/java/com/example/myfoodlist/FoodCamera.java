@@ -57,29 +57,37 @@ public class FoodCamera extends AppCompatActivity {
         findViewById(R.id.btn_capture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(intent.resolveActivity(getPackageManager()) != null){
+                Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                //인텐트를 처리 할 카메라 엑티비티가 있는지 확인
+                if(imageCaptureIntent.resolveActivity(getPackageManager()) != null){
+                    
+                    //촬영한 사진을 저장할 파일 생성
                     File photoFile = null;
                     try{
-                        photoFile = createImageFile();
+                        //임시로 사용할 파일이므로 경로는 캐시폴더로
+                        photoFile = captureCamera();
                     }catch(IOException e){
                         e.printStackTrace();
                     }
 
                     if(photoFile != null){
                         photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                        imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
                     }
+                    Log.e("photoUri",photoUri.getPath());
                 }
             }
         });
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("requestCode", requestCode + "");
+        Log.e("requestCode", resultCode + "");
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
             ExifInterface exif = null;
@@ -124,6 +132,7 @@ public class FoodCamera extends AppCompatActivity {
 
             //비트맵 사진 폴더 경로에 저장
             rotate(bitmap, exifDegree).compress(Bitmap.CompressFormat.PNG, 70, fOut);
+
             try{
                 fOut.flush();
             }catch(IOException e){
@@ -138,7 +147,6 @@ public class FoodCamera extends AppCompatActivity {
                 e.printStackTrace();
                 result = "File close Error";
             }
-
 
             ((ImageView) findViewById(R.id.iv_result)).setImageBitmap(rotate(bitmap, exifDegree));
         }
@@ -160,19 +168,20 @@ public class FoodCamera extends AppCompatActivity {
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
-    private File createImageFile() throws IOException{
+
+    private File captureCamera() throws IOException{
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "TEST_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName,
-                ".jpg",
-                storageDir);
+        String imageFileName = "Capture_" + timeStamp + "_"; // Capture_20221129_
 
-        //TODO
-        Toast.makeText(getApplicationContext(), storageDir.toString(), Toast.LENGTH_LONG).show();
+        File storageDir = getCacheDir();
 
-        imageFilePath = image.getAbsolutePath();
-        return image;
+        File tempImage = File.createTempFile(
+                  imageFileName
+                , ".jpg"
+                , storageDir);
+
+        imageFilePath = tempImage.getAbsolutePath();
+        return tempImage;
     }
 
     PermissionListener permissionListener = new PermissionListener() {
