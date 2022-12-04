@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_customNav;
     private Button btn_camera;
     private Button btn_map;
+    private Button btn_room;
     private TextView tv_main;
 
     private EditText et_subParam;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn_customNav = findViewById(R.id.btn_customNav);
         btn_camera = findViewById(R.id.btn_camera);
         btn_map = findViewById(R.id.btn_map);
+        btn_room = findViewById(R.id.btn_room);
 
         et_subParam = findViewById(R.id.et_subParam);
         img_main = findViewById(R.id.img_main);
@@ -134,6 +136,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MainMapActivity.class);
+                startActivity(intent); // 엑티비티 이동
+            }
+        });
+       btn_room.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RoomDbEx.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
