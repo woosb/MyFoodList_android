@@ -3,6 +3,7 @@ package com.example.myfoodlist;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -15,7 +16,7 @@ import com.example.myfoodlist.databinding.ActivityMainMapBinding;
 
 import java.util.List;
 
-public class MainMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MainMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMainMapBinding binding;
