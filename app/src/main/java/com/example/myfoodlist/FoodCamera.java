@@ -22,10 +22,7 @@ import androidx.core.content.FileProvider;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +31,7 @@ import java.util.List;
 public class FoodCamera extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 672;
+    private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
     String currentImagePath = null;
 
     ImageView iv_result;
@@ -80,14 +78,10 @@ public class FoodCamera extends AppCompatActivity {
     }
 
     public void showNext(){
-        //사진파일 저장폴더
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        String[] photoLists = storageDir.list();
-        String name = photoLists[0];
-        File file = new File(storageDir+File.separator+name);
-        Log.e("filePath", file.getPath());
-        Uri uri = Uri.parse(file.getPath());
-        iv_result.setImageURI(uri);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, DEFAULT_GALLERY_REQUEST_CODE);
     }
 
     public void showPrev(){
@@ -185,9 +179,19 @@ public class FoodCamera extends AppCompatActivity {
             }
            iv_result.setImageBitmap(rotateBitmap);
         }
+
+        if(requestCode == DEFAULT_GALLERY_REQUEST_CODE){
+            try(InputStream io = getContentResolver().openInputStream(data.getData())) {
+                Bitmap img = BitmapFactory.decodeStream(io);
+                iv_result.setImageBitmap(img);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
-
-
 
     public static Bitmap rotateImg(Bitmap source, float orientation){
         Matrix matrix = new Matrix();
