@@ -3,7 +3,6 @@ package com.example.myfoodlist;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -16,7 +15,7 @@ import com.example.myfoodlist.databinding.ActivityMainMapBinding;
 
 import java.util.List;
 
-public class MainMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMainMapBinding binding;
@@ -32,6 +31,7 @@ public class MainMapActivity extends AppCompatActivity implements OnMapReadyCall
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         mapFragment.getMapAsync(googleMap -> {
             addMarkers(googleMap);
             googleMap.moveCamera(CameraUpdateFactory.zoomTo(15));
@@ -52,17 +52,30 @@ public class MainMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+    Marker marker = null;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        googleMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-        // Display traffic.
-        googleMap.setTrafficEnabled(true);
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+            @Override
+            public void onMapClick(LatLng point) {
+                MarkerOptions mOptions = new MarkerOptions();
+                // 마커 타이틀
+                mOptions.title("마커 좌표");
+                Double latitude = point.latitude; // 위도
+                Double longitude = point.longitude; // 경도
+                // 마커의 스니펫(간단한 텍스트) 설정
+                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+                // LatLng: 위도 경도 쌍을 나타냄
+                mOptions.position(new LatLng(latitude, longitude));
+                // 마커(핀) 추가
+                if(marker == null){
+                    marker = googleMap.addMarker(mOptions);
+                }else{
+                    marker.remove();
+                    marker = googleMap.addMarker(mOptions);
+                }
+            }
+        });
     }
 }
