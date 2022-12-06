@@ -11,30 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
-        <Button
-                android:id="@+id/btn_test1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="test1"/>
-        <Button
-                android:id="@+id/btn_test2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="test2"/>
-        <Button
-                android:id="@+id/btn_test3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="test3"/>
-        <Button
-                android:id="@+id/btn_test4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:text="test4"/>
     </LinearLayout>
     <FrameLayout
             android:id="@+id/frame"

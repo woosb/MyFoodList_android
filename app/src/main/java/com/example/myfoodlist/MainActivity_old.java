@@ -8,7 +8,7 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
-public class MainActivity2 extends AppCompatActivity {
+public class MainActivity_old extends AppCompatActivity {
 
     private EditText et_userId;
     private Button btn_login;
@@ -31,7 +31,7 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main_old);
 
         tv_main = findViewById(R.id.tv_main);
         et_userId = findViewById(R.id.et_userId);
@@ -88,7 +88,7 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 str_subParam = et_subParam.getText().toString();
-                Intent intent = new Intent(MainActivity2.this, SubActivity.class);
+                Intent intent = new Intent(MainActivity_old.this, SubActivity.class);
                 intent.putExtra("str_subParma", str_subParam);
                 startActivity(intent); // 엑티비티 이동
             }
@@ -97,7 +97,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_nav.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, NavActivity.class);
+                Intent intent = new Intent(MainActivity_old.this, NavActivity.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -105,7 +105,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_sharedPreferences.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, SharedPreferencesEx.class);
+                Intent intent = new Intent(MainActivity_old.this, SharedPreferencesEx.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -113,7 +113,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_webView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, WebViewEx.class);
+                Intent intent = new Intent(MainActivity_old.this, WebViewEx.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -121,7 +121,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_customNav.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, CustomNavMenu.class);
+                Intent intent = new Intent(MainActivity_old.this, CustomNavMenu.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -129,7 +129,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_camera.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, FoodCamera.class);
+                Intent intent = new Intent(MainActivity_old.this, FoodCamera.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -137,14 +137,14 @@ public class MainActivity2 extends AppCompatActivity {
        btn_map.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, MainMapActivity.class);
+                Intent intent = new Intent(MainActivity_old.this, MainMapActivity.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
        btn_room.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, RoomDbEx.class);
+                Intent intent = new Intent(MainActivity_old.this, RoomDbEx.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });
@@ -152,7 +152,7 @@ public class MainActivity2 extends AppCompatActivity {
         btn_frame.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity_old.this, MainActivity.class);
                 startActivity(intent); // 엑티비티 이동
             }
         });

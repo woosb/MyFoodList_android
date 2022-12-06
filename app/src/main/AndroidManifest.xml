@@ -34,7 +34,7 @@
                 android:value="AIzaSyAwYC5JTVqRPqE-X0m1tQoT4hcJpPine0s"/>
 
         <activity
-                android:name=".MainActivity2"
+                android:name=".MainActivity_old"
                 android:exported="false"/>
         <activity
                 android:name=".RoomDbEx"
