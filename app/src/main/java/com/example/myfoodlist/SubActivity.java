@@ -2,10 +2,7 @@ package com.example.myfoodlist;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -48,6 +45,13 @@ public class SubActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
         lv_foodList.setAdapter(adapter);
 
+       lv_foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                data.get(i);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         data.add("test1");
         data.add("test2");

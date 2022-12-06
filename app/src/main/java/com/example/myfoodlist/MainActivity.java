@@ -1,159 +1,66 @@
 package com.example.myfoodlist;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
-
-    private EditText et_userId;
-    private Button btn_login;
-    private Button btn_move;
-    private Button btn_nav;
-    private Button btn_sharedPreferences;
-    private Button btn_webView;
-    private Button btn_customNav;
-    private Button btn_camera;
-    private Button btn_map;
-    private Button btn_room;
-    private Button btn_frame;
-    private TextView tv_main;
-
-    private EditText et_subParam;
-    private String str_subParam;
-
-    private ImageView img_main;
+    Button btn_menu, btn_list, btn_settings;
+    Button btn_test1, btn_test2, btn_test3, btn_test4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv_main = findViewById(R.id.tv_main);
-        et_userId = findViewById(R.id.et_userId);
+        btn_menu = findViewById(R.id.btn_menu);
+        btn_list = findViewById(R.id.btn_list);
+        btn_settings = findViewById(R.id.btn_settings);
 
-        btn_login = findViewById(R.id.btn_login);
-        btn_move = findViewById(R.id.btn_move);
-        btn_nav = findViewById(R.id.btn_nav);
-        btn_sharedPreferences = findViewById(R.id.btn_sharedPreferences);
-        btn_webView = findViewById(R.id.btn_webView);
-        btn_customNav = findViewById(R.id.btn_customNav);
-        btn_camera = findViewById(R.id.btn_camera);
-        btn_map = findViewById(R.id.btn_map);
-        btn_room = findViewById(R.id.btn_room);
-        btn_frame = findViewById(R.id.btn_frame);
+        btn_test1 = findViewById(R.id.btn_test1);
+        btn_test2 = findViewById(R.id.btn_test2);
+        btn_test3 = findViewById(R.id.btn_test3);
+        btn_test4 = findViewById(R.id.btn_test4);
 
-        et_subParam = findViewById(R.id.et_subParam);
-        img_main = findViewById(R.id.img_main);
-
-
-        img_main.setOnClickListener(new View.OnClickListener() {
+        btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "이미지 클릭", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        tv_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tv_main.setText("누르지 마세요");
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        //딜레이 후 시작할 코드 작성
-                        tv_main.setText("이것저것아무거나 내마음데로");
-                    }
-                }, 600);// 0.6초 정도 딜레이를 준 후 시작
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                MapsFragment mapsFragment = new MapsFragment();
+                transaction.replace(R.id.frame, mapsFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Editable text = et_userId.getText();
-                et_userId.setText(text + "라고 하면 안되요");
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                BlankFragment blankFragment = new BlankFragment();
+                transaction.replace(R.id.frame, blankFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
-
-        btn_move.setOnClickListener(new View.OnClickListener(){
+        btn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                str_subParam = et_subParam.getText().toString();
-                Intent intent = new Intent(MainActivity.this, SubActivity.class);
-                intent.putExtra("str_subParma", str_subParam);
-                startActivity(intent); // 엑티비티 이동
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
             }
         });
 
-        btn_nav.setOnClickListener(new View.OnClickListener(){
+        btn_test1.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NavActivity.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-        btn_sharedPreferences.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SharedPreferencesEx.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-        btn_webView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, WebViewEx.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-        btn_customNav.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CustomNavMenu.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-        btn_camera.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FoodCamera.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-       btn_map.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MainMapActivity.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-       btn_room.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RoomDbEx.class);
-                startActivity(intent); // 엑티비티 이동
-            }
-        });
-
-        btn_frame.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Fragment.class);
-                startActivity(intent); // 엑티비티 이동
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, SampleRecycleView.class);
+                startActivity(intent);
             }
         });
     }

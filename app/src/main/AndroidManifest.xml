@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.example.myfoodlist">
-
     <!-- 인터넷 접속 권한 -->
     <uses-permission android:name="android.permission.INTERNET"/> <!-- 카메라 관련 권한 -->
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -22,13 +21,20 @@
             android:theme="@style/Theme.MyFoodList"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
+        <activity
+                android:name=".SampleRecycleView"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyAwYC5JTVqRPqE-X0m1tQoT4hcJpPine0s"/>
 
         <activity
-                android:name=".Fragment"
+                android:name=".MainActivity2"
                 android:exported="false"/>
         <activity
                 android:name=".RoomDbEx"
