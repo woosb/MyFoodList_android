@@ -27,6 +27,7 @@ public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     @org.jetbrains.annotations.Nullable
     @Override
     public View getInfoContents(@NonNull @NotNull Marker marker) {
+
         Place place = (Place)marker.getTag();
 
         View view = LayoutInflater.from(context).inflate(R.layout.marker_info_contents, null);

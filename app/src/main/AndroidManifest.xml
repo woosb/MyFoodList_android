@@ -28,6 +28,9 @@
                 android:value="AIzaSyAwYC5JTVqRPqE-X0m1tQoT4hcJpPine0s"/>
 
         <activity
+                android:name=".Fragment"
+                android:exported="false"/>
+        <activity
                 android:name=".RoomDbEx"
                 android:exported="false"/>
         <activity
