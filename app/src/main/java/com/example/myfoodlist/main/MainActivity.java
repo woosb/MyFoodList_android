@@ -1,7 +1,9 @@
 package com.example.myfoodlist.main;
 
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView btn_openMenu;
-    private ImageView btn_closeMenu;
+    private ImageView btn_open_menu;
+    private ImageView btn_add_store;
+
+    private Button btn_close_menu;
 
     private DrawerLayout drawerLayout;
     private View drawerView;
@@ -26,21 +30,29 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerView = findViewById(R.id.drawer);
 
-        btn_openMenu = findViewById(R.id.btn_openMenu);
-        btn_closeMenu = findViewById(R.id.btn_closeMenu);
+        btn_open_menu = findViewById(R.id.btn_open_menu);
+        btn_close_menu = findViewById(R.id.btn_close_menu);
+        btn_add_store = findViewById(R.id.btn_add_store);
 
-        btn_openMenu.setOnClickListener(new View.OnClickListener() {
+        btn_open_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(drawerView);
             }
         });
 
-        btn_closeMenu = findViewById(R.id.btn_closeMenu);
-        btn_closeMenu.setOnClickListener(new View.OnClickListener() {
+        btn_close_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawers();
+                drawerLayout.close();
+            }
+        });
+
+        btn_add_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddStoreDetailActivity.class);
+                startActivity(intent);
             }
         });
 

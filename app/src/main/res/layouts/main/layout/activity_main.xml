@@ -16,14 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
              <ImageView
-                android:id="@+id/btn_openMenu"
+                android:id="@+id/btn_open_menu"
                 android:src="@mipmap/ic_hand"
                 android:layout_gravity="bottom|right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"/>
             <ImageView
-                    android:id="@+id/btn_closeMenu"
+                    android:id="@+id/btn_add_store"
                     android:src="@mipmap/ic_hand"
                     android:layout_gravity="bottom|right"
                     android:layout_width="50dp"

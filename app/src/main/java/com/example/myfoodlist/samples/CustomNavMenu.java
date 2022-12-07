@@ -36,7 +36,7 @@ public class CustomNavMenu extends AppCompatActivity {
             }
         });
 
-        btn_closeMenu = findViewById(R.id.btn_closeMenu);
+        btn_closeMenu = findViewById(R.id.btn_close_menu);
         btn_closeMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

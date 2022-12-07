@@ -40,13 +40,15 @@ public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         textView2.setText(place.getLagLng() + "");
         ImageView imageView = view.findViewById(R.id.im_thumbnail);
 
-        //사진파일 저장폴더 TODO 사용자가 저장한 사진파일 불러오는 로직 추가
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        String[] photoLists = storageDir.list();
-        String name = photoLists[0];
-        File file = new File(storageDir+File.separator+name);
-        Uri uri = Uri.parse(file.getPath());
-        imageView.setImageURI(uri);
+        if(false){
+            //사진파일 저장폴더 TODO 사용자가 저장한 사진파일 불러오는 로직 추가
+            File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            String[] photoLists = storageDir.list();
+            String name = photoLists[0];
+            File file = new File(storageDir+File.separator+name);
+            Uri uri = Uri.parse(file.getPath());
+            imageView.setImageURI(uri);
+        }
 
         return view;
     }
