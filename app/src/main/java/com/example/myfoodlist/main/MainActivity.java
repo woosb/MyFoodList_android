@@ -64,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // default fragment 설정
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        MapsFragment mapsFragment = new MapsFragment();
-        transaction.replace(R.id.frame, mapsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.replace(R.id.frame, new MapsFragment()).commit();
     }
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
