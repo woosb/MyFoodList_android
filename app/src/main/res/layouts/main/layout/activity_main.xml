@@ -14,7 +14,8 @@
     </FrameLayout>
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
              <ImageView
                 android:id="@+id/btn_open_menu"
                 android:src="@mipmap/ic_hand"
