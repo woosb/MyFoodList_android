@@ -20,8 +20,11 @@ public class StoreData implements Serializable {
    @ColumnInfo(name="score")
    private double score;
 
-   @ColumnInfo(name="latLng")
-   private LatLng latLng;
+   @ColumnInfo(name="latitude")
+   private String latitude;
+
+   @ColumnInfo(name="longitude")
+   private String longitude;
 
    @ColumnInfo(name="address")
    private String address;
@@ -29,18 +32,21 @@ public class StoreData implements Serializable {
    @ColumnInfo(name="addressDetail")
    private String addressDetail;
 
+   @ColumnInfo(name="memo")
+   private String memo;
+
    @ColumnInfo(name="thumbnail")
    private String thumbnail;
 
    @ColumnInfo(name="visitedYmd")
-   private LocalDate visitedYmd;
+   private String visitedYmd;
 
 
    @ColumnInfo(name="insYmd")
-   private LocalDate insYmd;
+   private String insYmd;
 
    @ColumnInfo(name="modYmd")
-   private LocalDate modYmd;
+   private String modYmd;
 
    public Long getId() {
       return id;
@@ -66,12 +72,12 @@ public class StoreData implements Serializable {
       this.score = score;
    }
 
-   public LatLng getLatLng() {
-      return latLng;
+   public String getLongitude() {
+      return longitude;
    }
 
-   public void setLatLng(LatLng latLng) {
-      this.latLng = latLng;
+   public void setLongitude(String longitude) {
+      this.longitude = longitude;
    }
 
    public String getAddress() {
@@ -90,35 +96,69 @@ public class StoreData implements Serializable {
       this.addressDetail = addressDetail;
    }
 
+   public String getMemo() {
+      return memo;
+   }
+
+   public void setMemo(String memo) {
+      this.memo = memo;
+   }
+
    public String getThumbnail() {
       return thumbnail;
+   }
+
+   public String getVisitedYmd() {
+      return visitedYmd;
+   }
+
+   public void setVisitedYmd(String visitedYmd) {
+      this.visitedYmd = visitedYmd;
+   }
+
+   public String getInsYmd() {
+      return insYmd;
+   }
+
+   public void setInsYmd(String insYmd) {
+      this.insYmd = insYmd;
+   }
+
+   public String getModYmd() {
+      return modYmd;
+   }
+
+   public void setModYmd(String modYmd) {
+      this.modYmd = modYmd;
    }
 
    public void setThumbnail(String thumbnail) {
       this.thumbnail = thumbnail;
    }
 
-   public LocalDate getInsYmd() {
-      return insYmd;
+   public String getLatitude() {
+      return latitude;
    }
 
-   public void setInsYmd(LocalDate insYmd) {
-      this.insYmd = insYmd;
+   public void setLatitude(String latitude) {
+      this.latitude = latitude;
    }
 
-   public LocalDate getModYmd() {
-      return modYmd;
-   }
-
-   public void setModYmd(LocalDate modYmd) {
-      this.modYmd = modYmd;
-   }
-
-   public LocalDate getVisitedYmd() {
-      return visitedYmd;
-   }
-
-   public void setVisitedYmd(LocalDate visitedYmd) {
-      this.visitedYmd = visitedYmd;
+   @Override
+   public String toString() {
+      return "StoreData{" +
+              "id=" + id +
+              ", name='" + name + '\'' +
+              ", score=" + score +
+              ", latitude='" + latitude + '\'' +
+              ", longitude='" + longitude + '\'' +
+              ", address='" + address + '\'' +
+              ", addressDetail='" + addressDetail + '\'' +
+              ", memo='" + memo + '\'' +
+              ", thumbnail='" + thumbnail + '\'' +
+              ", visitedYmd='" + visitedYmd + '\'' +
+              ", insYmd='" + insYmd + '\'' +
+              ", modYmd='" + modYmd + '\'' +
+              '}';
    }
 }

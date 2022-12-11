@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:text="테스트메뉴"
                 android:gravity="center"/>
-
     </LinearLayout>
 
 </LinearLayout>

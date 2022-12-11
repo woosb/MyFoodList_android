@@ -23,7 +23,7 @@ public interface StoreDataDao {
     void reset(List<StoreData> storeDates);
 
     @Query("UPDATE store set score = :sScore, modYmd = :sModYmd where ID = :sId")
-    void updateScore(double sScore, LocalDate sModYmd, Long sId);
+    void updateScore(double sScore, String sModYmd, Long sId);
 
     @Query("SELECT * FROM store WHERE score > :sScore")
     List<StoreData> getStoreDataWithScore(double sScore);
