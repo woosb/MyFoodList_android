@@ -32,29 +32,11 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerView = findViewById(R.id.drawer);
 
-        btn_open_menu = findViewById(R.id.btn_open_menu);
         btn_close_menu = findViewById(R.id.btn_close_menu);
-        btn_add_store = findViewById(R.id.btn_add_store);
-
-        btn_open_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(drawerView);
-            }
-        });
-
         btn_close_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.close();
-            }
-        });
-
-        btn_add_store.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddStoreDetailActivity.class);
-                startActivity(intent);
             }
         });
 

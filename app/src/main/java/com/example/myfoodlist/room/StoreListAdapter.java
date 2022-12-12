@@ -48,6 +48,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
         holder.tv_name.setText(data.getName());
         holder.tv_addr.setText(data.getAddress());
         holder.tv_score.setText(data.getScore()+"");
+        holder.tv_latLng.setText(data.getLatitude() + "/" +data.getLongitude());
     }
 
     @Override
@@ -57,7 +58,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView tv_name, tv_addr, tv_score;
+        TextView tv_name, tv_addr, tv_score, tv_latLng;
         ImageView btEdit, btDelete;
         public ViewHolder(@NonNull View view)
         {
@@ -65,6 +66,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
             tv_name = view.findViewById(R.id.tv_name);
             tv_addr = view.findViewById(R.id.tv_addr);
             tv_score = view.findViewById(R.id.tv_score);
+            tv_latLng = view.findViewById(R.id.tv_latLng);
             btEdit = view.findViewById(R.id.bt_edit);
             btDelete = view.findViewById(R.id.bt_delete);
 

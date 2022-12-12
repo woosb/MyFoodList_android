@@ -21,10 +21,10 @@ public class StoreData implements Serializable {
    private double score;
 
    @ColumnInfo(name="latitude")
-   private String latitude;
+   private double latitude;
 
    @ColumnInfo(name="longitude")
-   private String longitude;
+   private double longitude;
 
    @ColumnInfo(name="address")
    private String address;
@@ -72,13 +72,6 @@ public class StoreData implements Serializable {
       this.score = score;
    }
 
-   public String getLongitude() {
-      return longitude;
-   }
-
-   public void setLongitude(String longitude) {
-      this.longitude = longitude;
-   }
 
    public String getAddress() {
       return address;
@@ -136,12 +129,20 @@ public class StoreData implements Serializable {
       this.thumbnail = thumbnail;
    }
 
-   public String getLatitude() {
+   public double getLatitude() {
       return latitude;
    }
 
-   public void setLatitude(String latitude) {
+   public void setLatitude(double latitude) {
       this.latitude = latitude;
+   }
+
+   public double getLongitude() {
+      return longitude;
+   }
+
+   public void setLongitude(double longitude) {
+      this.longitude = longitude;
    }
 
    @Override

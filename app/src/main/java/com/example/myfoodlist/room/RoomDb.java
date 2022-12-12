@@ -6,7 +6,7 @@ import androidx.room.*;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import org.jetbrains.annotations.NotNull;
 
-@Database(entities = {MainData.class}, version = 1, exportSchema = false)
+@Database(entities = {MainData.class}, version = 2, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     private static RoomDb database;

@@ -1,5 +1,10 @@
 package com.example.myfoodlist.main;
 
+import android.content.Intent;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,6 +28,11 @@ public class MapsFragment extends Fragment {
     private List<Place> places = new PlacesReader().read();
     private GoogleMap mMap;
     private Marker marker = null;
+
+    private LatLng latLng;
+    private double mlatitude;
+    private double mlongitude;
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -48,8 +58,13 @@ public class MapsFragment extends Fragment {
                     Double longitude = point.longitude; // 경도
                     // 마커의 스니펫(간단한 텍스트) 설정
                     mOptions.snippet(latitude.toString() + ", " + longitude.toString());
+
+                    latLng = new LatLng(latitude, longitude);
+                    mlatitude = latitude;
+                    mlongitude = longitude;
+
                     // LatLng: 위도 경도 쌍을 나타냄
-                    mOptions.position(new LatLng(latitude, longitude));
+                    mOptions.position(latLng);
                     // 마커(핀) 추가
                     if(marker == null){
                         marker = googleMap.addMarker(mOptions);
@@ -73,6 +88,20 @@ public class MapsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ImageView btn_add_store;
+        btn_add_store = view.findViewById(R.id.btn_add_store);
+        btn_add_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddStoreDetailActivity.class);
+                intent.putExtra("latitude", mlatitude);
+                intent.putExtra("longitude", mlongitude);
+                startActivity(intent);
+            }
+        });
+
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {

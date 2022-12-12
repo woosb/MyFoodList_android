@@ -15,6 +15,7 @@ import com.example.myfoodlist.R;
 import com.example.myfoodlist.room.StoreData;
 import com.example.myfoodlist.room.StoreDb;
 import com.example.myfoodlist.room.StoreListAdapter;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +36,19 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     StoreDb database;
     StoreListAdapter adapter;
 
+    private LatLng latLng;
+
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_store_detail);
+
+        Intent intent = getIntent();
+        latitude = intent.getDoubleExtra("latitude",0);
+        longitude = intent.getDoubleExtra("longitude",0);
 
         btn_add_detail = findViewById(R.id.btn_add_detail);
         et_name = findViewById(R.id.et_name);
@@ -63,7 +73,6 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         btn_add_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Toast.makeText(AddStoreDetailActivity.this, "onClicked !", Toast.LENGTH_SHORT).show();
                 title = et_name.getText().toString();
                 addr = et_addr.getText().toString();
@@ -75,6 +84,8 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeData.setAddress(addr);
                 storeData.setScore(score);
                 storeData.setMemo(memo);
+                storeData.setLatitude(latitude);
+                storeData.setLongitude(longitude);
 
                 database.storeDataDao().insert(storeData);
                 storeDataList.clear();
