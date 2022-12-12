@@ -1,6 +1,8 @@
 package com.example.myfoodlist.main;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class AddStoreDetailActivity extends AppCompatActivity {
 
@@ -36,10 +40,9 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     StoreDb database;
     StoreListAdapter adapter;
 
-    private LatLng latLng;
-
     double latitude;
     double longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +53,16 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         latitude = intent.getDoubleExtra("latitude",0);
         longitude = intent.getDoubleExtra("longitude",0);
 
+        String getAddrFromLatLng = getAddress(new LatLng(latitude, longitude));
+
         btn_add_detail = findViewById(R.id.btn_add_detail);
         et_name = findViewById(R.id.et_name);
         et_addr = findViewById(R.id.et_addr);
         et_score = findViewById(R.id.et_score);
         et_memo = findViewById(R.id.et_memo);
         iv_picture = findViewById(R.id.iv_picture);
+
+        et_addr.setText(getAddrFromLatLng);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -66,14 +73,9 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
 
-        for(StoreData st : storeDataList){
-            Log.e("storeData", st.toString());
-        }
-
         btn_add_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AddStoreDetailActivity.this, "onClicked !", Toast.LENGTH_SHORT).show();
                 title = et_name.getText().toString();
                 addr = et_addr.getText().toString();
                 score = Double.parseDouble(et_score.getText().toString());
@@ -87,6 +89,8 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeData.setLatitude(latitude);
                 storeData.setLongitude(longitude);
 
+                Log.e("storeData", storeData.toString());
+
                 database.storeDataDao().insert(storeData);
                 storeDataList.clear();
                 storeDataList.addAll(database.storeDataDao().getAll());
@@ -94,9 +98,22 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeDataList.clear();
                 storeDataList.addAll(database.storeDataDao().getAll());
                 adapter.notifyDataSetChanged();
-//                Intent intent = new Intent(AddStoreDetailActivity.this, MainActivity.class);
-//                startActivity(intent);
+
             }
         });
+    }
+
+    //위도/경도로 주소 값 가져오기.
+    private String getAddress(LatLng latLng){
+        Geocoder geocoder = new Geocoder(AddStoreDetailActivity.this, Locale.KOREA);
+        String addr = "주소 오류";
+
+        try{
+            List<Address> fromLocation = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            addr = fromLocation.get(0).getAddressLine(0);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return addr;
     }
 }
