@@ -24,6 +24,7 @@ import java.util.Optional;
 
 public class AddStoreDetailActivity extends AppCompatActivity {
 
+    private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
     Button btn_add_detail;
 
     EditText et_name, et_addr, et_score, et_memo;
@@ -80,8 +81,11 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                     @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.action_menu1){
+                            Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
+                            startActivity(intent);
                             Toast.makeText(AddStoreDetailActivity.this, "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
                         }else if (menuItem.getItemId() == R.id.action_menu2){
+                            showGallery();
                             Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
                         }
                         return false;
@@ -119,6 +123,13 @@ public class AddStoreDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void showGallery(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, DEFAULT_GALLERY_REQUEST_CODE);
     }
 
     //위도/경도로 주소 값 가져오기.

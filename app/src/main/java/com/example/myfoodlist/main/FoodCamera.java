@@ -77,6 +77,8 @@ public class FoodCamera extends AppCompatActivity {
             @Override
             public void onClick(View view){showPrev();}
         });
+
+        captureImage();
     }
 
     public void showNext(){
