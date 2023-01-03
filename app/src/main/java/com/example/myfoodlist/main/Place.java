@@ -1,6 +1,9 @@
 package com.example.myfoodlist.main;
 
+import com.example.myfoodlist.room.StoreData;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
 
 /*
 * TODO
@@ -11,7 +14,16 @@ public class Place {
     private LatLng lagLng;
     private String address;
     private String thumbnail;
-    private float rating;
+    private double rating;
+
+    public static Place storeDatatoPlace(StoreData data){
+        Place place = new Place();
+        place.setName(data.getName());
+        place.setLagLng(new LatLng(data.getLatitude(), data.getLongitude()));
+        place.setAddress(data.getAddress());
+        place.setRating(data.getScore());
+        return place;
+    }
 
     public String getName() {
         return name;
@@ -45,11 +57,11 @@ public class Place {
         this.thumbnail = thumbnail;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

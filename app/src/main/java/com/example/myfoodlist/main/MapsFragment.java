@@ -1,5 +1,6 @@
 package com.example.myfoodlist.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Button;
@@ -15,23 +16,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myfoodlist.R;
+import com.example.myfoodlist.room.StoreData;
+import com.example.myfoodlist.room.StoreDb;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.*;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsFragment extends Fragment {
 
-    private List<Place> places = new PlacesReader().read();
     private GoogleMap mMap;
     private Marker marker = null;
 
     private LatLng latLng;
     private double mlatitude;
     private double mlongitude;
+
+    private Context context;
+    List<StoreData> storeDataList = new ArrayList<>();
+    StoreDb database;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -86,6 +94,18 @@ public class MapsFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull @NotNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+        setStoreData();
+    }
+
+    private void setStoreData(){
+        database = StoreDb.getInstance(context);
+        storeDataList = database.storeDataDao().getAll();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -101,7 +121,6 @@ public class MapsFragment extends Fragment {
             }
         });
 
-
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -116,7 +135,8 @@ public class MapsFragment extends Fragment {
     }
 
     private void addMarkers(GoogleMap googleMap){
-        for(Place place : places){
+        for(StoreData storeData : storeDataList){
+            Place place =  Place.storeDatatoPlace(storeData);
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.title(place.getName());
             markerOptions.position(place.getLagLng());
