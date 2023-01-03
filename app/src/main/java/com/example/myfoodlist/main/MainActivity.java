@@ -5,21 +5,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.myfoodlist.R;
-import com.example.myfoodlist.samples.RoomDbEx;
 import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView btn_open_menu;
-    private ImageView btn_add_store;
-
+    private ImageView btn_open_list;
     private Button btn_close_menu;
 
     private DrawerLayout drawerLayout;
@@ -31,6 +27,16 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerView = findViewById(R.id.drawer);
+
+        btn_open_list = findViewById(R.id.btn_open_list);
+
+        btn_open_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, StoreListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btn_close_menu = findViewById(R.id.btn_close_menu);
         btn_close_menu.setOnClickListener(new View.OnClickListener() {

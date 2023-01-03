@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfoodlist.R;
 import com.example.myfoodlist.main.AddStoreDetailActivity;
+import com.example.myfoodlist.main.StoreListActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,6 +27,12 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
 
     private Activity context;
     private StoreDb database;
+
+    public StoreListAdapter(StoreListActivity addStoreDetailActivity, List<StoreData> storeDataList) {
+        this.context = addStoreDetailActivity;
+        this.dataList = storeDataList;
+        notifyDataSetChanged();
+    }
 
     public StoreListAdapter(AddStoreDetailActivity addStoreDetailActivity, List<StoreData> storeDataList) {
         this.context = addStoreDetailActivity;

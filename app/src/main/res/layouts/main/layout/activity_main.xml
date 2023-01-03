@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:gravity="center">
              <ImageView
-                android:id="@+id/btn_open_menu"
+                android:id="@+id/btn_open_list"
                 android:src="@mipmap/ic_hand"
                 android:layout_gravity="bottom|right"
                 android:layout_width="50dp"

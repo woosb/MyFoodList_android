@@ -5,14 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:padding="16dp"
-              tools:context=".samples.RoomDbEx">
-
-    <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="텍스트를 입력하시오"
-            android:padding="12dp"/>
+              tools:context=".main.StoreListActivity">
 
     <LinearLayout
             android:layout_width="match_parent"

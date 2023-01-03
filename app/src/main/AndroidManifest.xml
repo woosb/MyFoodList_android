@@ -22,22 +22,12 @@
             android:theme="@style/Theme.MyFoodList"
             android:usesCleartextTraffic="true"
             tools:targetApi="31">
-        <activity
-                android:name=".samples.SampleRecycleView"
-                android:exported="false">
-            <meta-data
-                    android:name="android.app.lib_name"
-                    android:value=""/>
-        </activity>
-
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyAwYC5JTVqRPqE-X0m1tQoT4hcJpPine0s"/>
+
         <activity
-                android:name=".samples.MainActivity_old"
-                android:exported="false"/>
-        <activity
-                android:name=".samples.RoomDbEx"
+                android:name=".main.StoreListActivity"
                 android:exported="false"/>
         <activity
                 android:name=".samples.MainMapActivity"
