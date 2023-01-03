@@ -3,6 +3,7 @@ package com.example.myfoodlist.main;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,6 +59,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         et_name = findViewById(R.id.et_name);
         et_addr = findViewById(R.id.et_addr);
         et_score = findViewById(R.id.et_score);
+        et_score.setFilters(new InputFilter[]{new InputFilterMinMax(1,100)});
         et_memo = findViewById(R.id.et_memo);
         iv_picture = findViewById(R.id.iv_picture);
 
