@@ -13,6 +13,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfoodlist.R;
+import com.example.myfoodlist.common.StringUtil;
 import com.example.myfoodlist.room.StoreData;
 import com.example.myfoodlist.room.StoreDb;
 import com.example.myfoodlist.room.StoreListAdapter;
@@ -65,8 +66,6 @@ public class AddStoreDetailActivity extends AppCompatActivity {
 
         et_addr.setText(getAddrFromLatLng);
 
-//        recyclerView = findViewById(R.id.recycler_view);
-
         database = StoreDb.getInstance(this);
         storeDataList = database.storeDataDao().getAll();
         adapter = new StoreListAdapter(AddStoreDetailActivity.this, storeDataList);
@@ -114,6 +113,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeData.setMemo(memo);
                 storeData.setLatitude(latitude);
                 storeData.setLongitude(longitude);
+                storeData.setInsYmdHms(StringUtil.getDateTime());
 
                 Log.e("storeData", storeData.toString());
 
