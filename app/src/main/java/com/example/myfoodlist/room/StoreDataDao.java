@@ -22,8 +22,11 @@ public interface StoreDataDao {
     @Delete
     void reset(List<StoreData> storeDates);
 
-    @Query("UPDATE store set score = :sScore, modYmd = :sModYmd where ID = :sId")
-    void updateScore(double sScore, String sModYmd, Long sId);
+    @Query("UPDATE store set score = :sScore, modYmdHms = :sModYmdHms where ID = :sId")
+    void updateScore(double sScore, String sModYmdHms, Long sId);
+
+    @Query("UPDATE store set name = :sName, address = :sAddr, score = :sScore, memo = :sMemo, modYmdHms = :sModeYmdHms where id = :sId")
+    void updateStoreData(String sName, String sAddr, int sScore, String sMemo, String sModeYmdHms, Long sId);
 
     @Query("SELECT * FROM store WHERE score > :sScore")
     List<StoreData> getStoreDataWithScore(double sScore);

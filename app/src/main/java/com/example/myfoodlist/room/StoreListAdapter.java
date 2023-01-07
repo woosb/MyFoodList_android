@@ -9,6 +9,7 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfoodlist.R;
+import com.example.myfoodlist.common.StringUtil;
 import com.example.myfoodlist.main.AddStoreDetailActivity;
 import com.example.myfoodlist.main.StoreListActivity;
 import org.jetbrains.annotations.NotNull;
@@ -101,7 +102,13 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        Log.e("test", "test");
+                        String name = et_name.getText().toString().trim();
+                        String addr = et_addr.getText().toString().trim();
+                        int score = Integer.parseInt(et_score.getText().toString().trim());
+                        String memo = et_memo.getText().toString().trim();
+
+                        database.storeDataDao().updateStoreData(name, addr, score, memo, StringUtil.getDateTime(), sId);
+
                         notifyDataSetChanged();
                     }
                 });

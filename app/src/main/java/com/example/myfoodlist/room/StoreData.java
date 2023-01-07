@@ -42,11 +42,11 @@ public class StoreData implements Serializable {
    private String visitedYmd;
 
 
-   @ColumnInfo(name="insYmd")
-   private String insYmd;
+   @ColumnInfo(name="insYmdHms")
+   private String insYmdHms;
 
-   @ColumnInfo(name="modYmd")
-   private String modYmd;
+   @ColumnInfo(name="modYmdHms")
+   private String modYmdHms;
 
    public Long getId() {
       return id;
@@ -109,20 +109,20 @@ public class StoreData implements Serializable {
       this.visitedYmd = visitedYmd;
    }
 
-   public String getInsYmd() {
-      return insYmd;
+   public String getInsYmdHms() {
+      return insYmdHms;
    }
 
-   public void setInsYmd(String insYmd) {
-      this.insYmd = insYmd;
+   public void setInsYmdHms(String insYmdHms) {
+      this.insYmdHms = insYmdHms;
    }
 
-   public String getModYmd() {
-      return modYmd;
+   public String getModYmdHms() {
+      return modYmdHms;
    }
 
-   public void setModYmd(String modYmd) {
-      this.modYmd = modYmd;
+   public void setModYmdHms(String modYmdHms) {
+      this.modYmdHms = modYmdHms;
    }
 
    public void setThumbnail(String thumbnail) {
@@ -158,8 +158,8 @@ public class StoreData implements Serializable {
               ", memo='" + memo + '\'' +
               ", thumbnail='" + thumbnail + '\'' +
               ", visitedYmd='" + visitedYmd + '\'' +
-              ", insYmd='" + insYmd + '\'' +
-              ", modYmd='" + modYmd + '\'' +
+              ", insYmd='" + insYmdHms + '\'' +
+              ", modYmd='" + modYmdHms + '\'' +
               '}';
    }
 }
