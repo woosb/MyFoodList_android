@@ -18,6 +18,8 @@ import java.util.List;
 public class StoreListActivity extends AppCompatActivity {
 
     Button btAdd, btReset;
+
+    Button btDelete, btEdit;
     RecyclerView recyclerView;
 
     List<StoreData> storeDataList = new ArrayList<>();
@@ -59,28 +61,8 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                title = et_name.getText().toString();
-                addr = et_addr.getText().toString();
-                score = Double.parseDouble(et_score.getText().toString());
-                memo = et_memo.getText().toString();
-
-                StoreData storeData = new StoreData();
-                storeData.setName(title);
-                storeData.setAddress(addr);
-                storeData.setScore(score);
-                storeData.setMemo(memo);
-                storeData.setLatitude(Double.parseDouble(latitude));
-                storeData.setLongitude(Double.parseDouble(longitude));
-
-                Log.e("storeData", storeData.toString());
-
-                database.storeDataDao().insert(storeData);
-                storeDataList.clear();
-                storeDataList.addAll(database.storeDataDao().getAll());
-
-                storeDataList.clear();
-                storeDataList.addAll(database.storeDataDao().getAll());
-                adapter.notifyDataSetChanged();
+                Intent intent = new Intent(StoreListActivity.this, AddStoreDetailActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -95,5 +77,6 @@ public class StoreListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+
     }
 }

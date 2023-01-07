@@ -65,12 +65,6 @@
                     android:layout_height="wrap_content"
                     android:text="추가하기"
                     />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                tools:listitem="@layout/store_list"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
