@@ -18,7 +18,7 @@ public class StoreData implements Serializable {
    private String name;
 
    @ColumnInfo(name="score")
-   private double score;
+   private int score;
 
    @ColumnInfo(name="latitude")
    private double latitude;
@@ -64,11 +64,11 @@ public class StoreData implements Serializable {
       this.name = name;
    }
 
-   public double getScore() {
+   public int getScore() {
       return score;
    }
 
-   public void setScore(double score) {
+   public void setScore(int score) {
       this.score = score;
    }
 

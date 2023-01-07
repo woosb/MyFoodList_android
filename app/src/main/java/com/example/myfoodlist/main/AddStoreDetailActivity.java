@@ -34,7 +34,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     String title, addr, memo;
-    double score;
+    int score;
 
     List<StoreData> storeDataList = new ArrayList<>();
     StoreDb database;
@@ -65,15 +65,17 @@ public class AddStoreDetailActivity extends AppCompatActivity {
 
         et_addr.setText(getAddrFromLatLng);
 
-        recyclerView = findViewById(R.id.recycler_view);
+//        recyclerView = findViewById(R.id.recycler_view);
 
         database = StoreDb.getInstance(this);
         storeDataList = database.storeDataDao().getAll();
         adapter = new StoreListAdapter(AddStoreDetailActivity.this, storeDataList);
 
+        // detail 조회 화면 따로 추가
+        /*
         recyclerView.setLayoutManager(new LinearLayoutManager((this)));
         recyclerView.setAdapter(adapter);
-
+        */
         iv_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +104,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 title = et_name.getText().toString();
                 addr = et_addr.getText().toString();
-                score = Double.parseDouble(et_score.getText().toString());
+                score = Integer.parseInt(et_score.getText().toString());
                 memo = et_memo.getText().toString();
 
                 StoreData storeData = new StoreData();
@@ -137,7 +139,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     //위도/경도로 주소 값 가져오기.
     private String getAddress(LatLng latLng){
         Geocoder geocoder = new Geocoder(AddStoreDetailActivity.this, Locale.KOREA);
-        String addr = "주소 오류";
+        String addr = "";
 
         try{
             List<Address> fromLocation = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
