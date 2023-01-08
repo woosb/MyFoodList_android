@@ -54,12 +54,12 @@ public class FoodCamera extends AppCompatActivity {
         iv_result = findViewById(R.id.iv_result);
 
         //loadImg();
-        //권한체크
-        TedPermission.create()
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("거부하셨습니다.")
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).check();
+//        //권한체크
+//        TedPermission.create()
+//                .setPermissionListener(permissionListener)
+//                .setRationaleMessage("카메라 권한이 필요합니다.")
+//                .setDeniedMessage("거부하셨습니다.")
+//                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).check();
 
         btn_capture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,15 +214,15 @@ public class FoodCamera extends AppCompatActivity {
         return 0;
     }
 
-    PermissionListener permissionListener = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) {
-            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
-        }
-    };
+//    PermissionListener permissionListener = new PermissionListener() {
+//        @Override
+//        public void onPermissionGranted() {
+//            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onPermissionDenied(List<String> deniedPermissions) {
+//            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+//        }
+//    };
 }

@@ -1,5 +1,6 @@
 package com.example.myfoodlist.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,6 +19,8 @@ import com.example.myfoodlist.room.StoreData;
 import com.example.myfoodlist.room.StoreDb;
 import com.example.myfoodlist.room.StoreListAdapter;
 import com.google.android.gms.maps.model.LatLng;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +53,13 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_store_detail);
 
+        //권한체크
+        TedPermission.create()
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("카메라 권한이 필요합니다.")
+                .setDeniedMessage("거부하셨습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).check();
+
         Intent intent = getIntent();
         latitude = intent.getDoubleExtra("latitude",0);
         longitude = intent.getDoubleExtra("longitude",0);
@@ -78,23 +88,25 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         iv_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
-                getMenuInflater().inflate(R.menu.popup,popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                        if (menuItem.getItemId() == R.id.action_menu1){
-                            Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
-                            startActivity(intent);
-                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
-                        }else if (menuItem.getItemId() == R.id.action_menu2){
-                            showGallery();
-                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
+                Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
+                startActivity(intent);
+//                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
+//                getMenuInflater().inflate(R.menu.popup,popupMenu.getMenu());
+//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                    @Override
+//                public boolean onMenuItemClick(MenuItem menuItem) {
+//                        if (menuItem.getItemId() == R.id.action_menu1){
+//                            Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
+//                            startActivity(intent);
+//                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
+//                        }else if (menuItem.getItemId() == R.id.action_menu2){
+//                            showGallery();
+//                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
+//                        }
+//                        return false;
+//                    }
+//                });
+//                popupMenu.show();
             }
         });
 
@@ -149,4 +161,17 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         }
         return addr;
     }
+
+
+    PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionDenied(List<String> deniedPermissions) {
+            Toast.makeText(getApplicationContext(), "권한이 허용됨", Toast.LENGTH_SHORT).show();
+        }
+    };
 }
