@@ -2,15 +2,24 @@ package com.example.myfoodlist.main;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfoodlist.R;
@@ -22,14 +31,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class AddStoreDetailActivity extends AppCompatActivity {
 
+    private static final int REQUEST_IMAGE_CAPTURE = 672;
     private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
+    String currentImagePath = null;
     Button btn_add_detail;
 
     EditText et_name, et_addr, et_score, et_memo;
@@ -93,25 +106,24 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         iv_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
-                startActivity(intent);
-//                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
-//                getMenuInflater().inflate(R.menu.popup,popupMenu.getMenu());
-//                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                public boolean onMenuItemClick(MenuItem menuItem) {
-//                        if (menuItem.getItemId() == R.id.action_menu1){
-//                            Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
-//                            startActivity(intent);
+//                Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
+//                startActivity(intent);
+                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
+                getMenuInflater().inflate(R.menu.popup,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == R.id.action_menu1){
+                            captureImage();
 //                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
-//                        }else if (menuItem.getItemId() == R.id.action_menu2){
-//                            showGallery();
-//                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
-//                        }
-//                        return false;
-//                    }
-//                });
-//                popupMenu.show();
+                        }else if (menuItem.getItemId() == R.id.action_menu2){
+                            showGallery();
+                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
@@ -146,6 +158,40 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void captureImage(){
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            File imageFile = null;
+
+            try {
+                imageFile = getImageFile();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            // 파일이 null이 아니면
+            if(imageFile != null){
+                Uri imageUri= FileProvider.getUriForFile(this, "com.example.myfoodlist", imageFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(cameraIntent,REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private File getImageFile() throws IOException{
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageName = "jpg_" + timeStamp + "_";
+        // 공용 폴더
+        //File publicDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        // 어플 내부용 폴더 앱 이외에는 비공개
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        // 캐시 폴더에 저장
+        //File cacheDir = getCacheDir();
+        File imageFile = File.createTempFile(imageName, ".jpg", storageDir);
+        currentImagePath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
     public void showGallery(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -168,6 +214,57 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     }
 
 
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("requestCode", requestCode + "");
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            File file = new File(currentImagePath);
+            Bitmap rotateBitmap = null;
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                if (bitmap != null) {
+                    ExifInterface exif = new ExifInterface(currentImagePath);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+                    rotateBitmap = rotateImg(bitmap, exifOrientationToDegrees(orientation));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // 캡쳐한 사진을 imageView에 그려주는 부분
+            iv_picture.setImageBitmap(rotateBitmap);
+
+        }
+
+        if(requestCode == DEFAULT_GALLERY_REQUEST_CODE){
+            try(InputStream io = getContentResolver().openInputStream(data.getData())) {
+                Bitmap img = BitmapFactory.decodeStream(io);
+                iv_picture.setImageBitmap(img);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static Bitmap rotateImg(Bitmap source, float orientation){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(orientation);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+    private int exifOrientationToDegrees(int exifOrientation){
+        if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_90){
+            return 90;
+        }else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_180){
+            return 180;
+        }else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_270){
+            return 270;
+        }
+        return 0;
+    }
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {

@@ -40,8 +40,6 @@ public class FoodCamera extends AppCompatActivity {
     Button btn_prev;
     Button btn_next;
     Button btn_save;
-    List photoList = new ArrayList();
-    private MediaScanner mMediaScanner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
