@@ -39,7 +39,7 @@ public class FoodCamera extends AppCompatActivity {
     ImageView iv_result;
     Button btn_prev;
     Button btn_next;
-
+    Button btn_save;
     List photoList = new ArrayList();
     private MediaScanner mMediaScanner;
     @Override
@@ -50,6 +50,7 @@ public class FoodCamera extends AppCompatActivity {
         Button btn_capture = findViewById(R.id.btn_capture);
         btn_prev = findViewById(R.id.btn_prev);
         btn_next = findViewById(R.id.btn_next);
+        btn_save = findViewById(R.id.btn_save);
 
         iv_result = findViewById(R.id.iv_result);
 
@@ -76,6 +77,15 @@ public class FoodCamera extends AppCompatActivity {
         btn_prev.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){showPrev();}
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FoodCamera.this, AddStoreDetailActivity.class);
+                intent.putExtra("img_path", currentImagePath);
+                startActivity(intent);
+            }
         });
 
         captureImage();
@@ -168,6 +178,8 @@ public class FoodCamera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d("requestCode", requestCode + "");
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             File file = new File(currentImagePath);
             Bitmap rotateBitmap = null;
@@ -181,7 +193,9 @@ public class FoodCamera extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            // 캡쳐한 사진을 imageView에 그려주는 부분
            iv_result.setImageBitmap(rotateBitmap);
+
         }
 
         if(requestCode == DEFAULT_GALLERY_REQUEST_CODE){
@@ -193,7 +207,6 @@ public class FoodCamera extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 

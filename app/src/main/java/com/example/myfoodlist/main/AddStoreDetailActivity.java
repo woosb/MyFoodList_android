@@ -66,6 +66,11 @@ public class AddStoreDetailActivity extends AppCompatActivity {
 
         String getAddrFromLatLng = getAddress(new LatLng(latitude, longitude));
 
+        String img_path = intent.getStringExtra("img_path");
+        if(img_path != null){
+            Log.d("img_path", img_path);
+        }
+
         btn_add_detail = findViewById(R.id.btn_add_detail);
         et_name = findViewById(R.id.et_name);
         et_addr = findViewById(R.id.et_addr);

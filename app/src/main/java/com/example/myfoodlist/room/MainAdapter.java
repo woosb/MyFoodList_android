@@ -62,26 +62,26 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
                 dialog.show();
 
-                final EditText editText = dialog.findViewById(R.id.dialog_edit_text);
-                Button bt_update = dialog.findViewById(R.id.bt_update);
-
-                editText.setText(sText);
-
-                bt_update.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        dialog.dismiss();
-                        String uText = editText.getText().toString().trim();
-
-                        database.mainDao().update(sID, uText);
-
-                        dataList.clear();
-                        dataList.addAll(database.mainDao().getAll());
-                        notifyDataSetChanged();
-                    }
-                });
+//                final EditText editText = dialog.findViewById(R.id.dialog_edit_text);
+//                Button bt_update = dialog.findViewById(R.id.bt_update);
+//
+//                editText.setText(sText);
+//
+//                bt_update.setOnClickListener(new View.OnClickListener()
+//                {
+//                    @Override
+//                    public void onClick(View v)
+//                    {
+//                        dialog.dismiss();
+//                        String uText = editText.getText().toString().trim();
+//
+//                        database.mainDao().update(sID, uText);
+//
+//                        dataList.clear();
+//                        dataList.addAll(database.mainDao().getAll());
+//                        notifyDataSetChanged();
+//                    }
+//                });
             }
         });
 
