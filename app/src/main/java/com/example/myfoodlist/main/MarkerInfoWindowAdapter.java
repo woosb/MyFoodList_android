@@ -1,8 +1,8 @@
 package com.example.myfoodlist.main;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.myfoodlist.R;
+import com.example.myfoodlist.common.CommonUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-
 public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
     private Context context;
+    private String imgRoot;
 
     public MarkerInfoWindowAdapter(Context context) {
         this.context = context;
+        this.imgRoot = new CommonUtil().getImgPath();
     }
 
     @Nullable
@@ -45,15 +46,10 @@ public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
         rating.setText(getStar(place.getRating()));
         ImageView imageView = view.findViewById(R.id.im_thumbnail);
 
-        if(false){
-            //사진파일 저장폴더 TODO 사용자가 저장한 사진파일 불러오는 로직 추가
-            File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            String[] photoLists = storageDir.list();
-            String name = photoLists[0];
-            File file = new File(storageDir+File.separator+name);
-            Uri uri = Uri.parse(file.getPath());
-            imageView.setImageURI(uri);
-        }
+        //마커에 이미지 세팅
+        String thumbnail = imgRoot + place.getThumbnail();
+        Bitmap bitmap = BitmapFactory.decodeFile(thumbnail);
+        imageView.setImageBitmap(bitmap);
 
         return view;
     }

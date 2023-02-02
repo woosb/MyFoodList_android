@@ -1,7 +1,9 @@
 package com.example.myfoodlist.main;
 
+import androidx.annotation.NonNull;
 import com.example.myfoodlist.room.StoreData;
 import com.google.android.gms.maps.model.LatLng;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class Place {
         place.setLagLng(new LatLng(data.getLatitude(), data.getLongitude()));
         place.setAddress(data.getAddress());
         place.setRating(data.getScore());
+        place.setThumbnail(data.getThumbnail());
         return place;
     }
 

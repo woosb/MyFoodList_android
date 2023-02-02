@@ -43,6 +43,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
     String currentImagePath = null;
+    String imgName;
     Button btn_add_detail;
 
     EditText et_name, et_addr, et_score, et_memo;
@@ -106,8 +107,6 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         iv_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(AddStoreDetailActivity.this, FoodCamera.class);
-//                startActivity(intent);
                 final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),view);
                 getMenuInflater().inflate(R.menu.popup,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -115,10 +114,8 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.action_menu1){
                             captureImage();
-//                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 1 클릭", Toast.LENGTH_SHORT).show();
                         }else if (menuItem.getItemId() == R.id.action_menu2){
                             showGallery();
-                            Toast.makeText(AddStoreDetailActivity.this, "메뉴 2 클릭", Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
@@ -140,6 +137,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeData.setAddress(addr);
                 storeData.setScore(score);
                 storeData.setMemo(memo);
+                storeData.setThumbnail(imgName);
                 storeData.setLatitude(latitude);
                 storeData.setLongitude(longitude);
                 storeData.setInsYmdHms(StringUtil.getDateTime());
@@ -153,6 +151,9 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                 storeDataList.clear();
                 storeDataList.addAll(database.storeDataDao().getAll());
                 adapter.notifyDataSetChanged();
+
+                Intent detailToMain = new Intent(AddStoreDetailActivity.this, MainActivity.class);
+                startActivity(detailToMain);
 
             }
         });
@@ -188,6 +189,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         // 캐시 폴더에 저장
         //File cacheDir = getCacheDir();
         File imageFile = File.createTempFile(imageName, ".jpg", storageDir);
+        imgName = imageFile.getName();
         currentImagePath = imageFile.getAbsolutePath();
         return imageFile;
     }
