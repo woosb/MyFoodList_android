@@ -23,6 +23,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfoodlist.R;
+import com.example.myfoodlist.common.NetworkStatus;
 import com.example.myfoodlist.common.StringUtil;
 import com.example.myfoodlist.room.StoreData;
 import com.example.myfoodlist.room.StoreDb;
@@ -44,7 +45,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
     private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
     String currentImagePath = null;
     String imgName;
-    Button btn_add_detail;
+    Button btn_add_detail, btn_search_addr;
 
     EditText et_name, et_addr, et_score, et_memo;
     ImageView iv_picture;
@@ -86,14 +87,31 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         }
 
         btn_add_detail = findViewById(R.id.btn_add_detail);
+        btn_search_addr = findViewById(R.id.btn_search_addr);
         et_name = findViewById(R.id.et_name);
         et_addr = findViewById(R.id.et_addr);
         et_score = findViewById(R.id.et_score);
+        // score textview 에 범위 설정 필터 적용
         et_score.setFilters(new InputFilter[]{new InputFilterMinMax(1,100)});
         et_memo = findViewById(R.id.et_memo);
         iv_picture = findViewById(R.id.iv_picture);
 
         et_addr.setText(getAddrFromLatLng);
+        btn_search_addr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //인터넷 연결 확인
+                int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
+                if(status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                    //주소검색 웹 뷰를 띄울 DialogFragment 선언
+//                    navController.navigate(NavGraphDirections.actionGlobalRoadAddressSearchDialog());
+                    Intent postCodeIntent = new Intent(AddStoreDetailActivity.this, SearchAddrActivity.class);
+                    startActivity(postCodeIntent);
+                }else {
+                    Toast.makeText(AddStoreDetailActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         database = StoreDb.getInstance(this);
         storeDataList = database.storeDataDao().getAll();

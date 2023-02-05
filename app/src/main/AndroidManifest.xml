@@ -43,6 +43,9 @@
                 android:name=".samples.CustomNavMenu"
                 android:exported="false"/>
         <activity
+                android:name=".main.SearchAddrActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".samples.WebViewEx"
                 android:exported="false"/>
         <activity

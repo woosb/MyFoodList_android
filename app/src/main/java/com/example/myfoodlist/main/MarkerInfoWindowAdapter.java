@@ -22,7 +22,7 @@ public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter{
 
     public MarkerInfoWindowAdapter(Context context) {
         this.context = context;
-        this.imgRoot = new CommonUtil().getImgPath();
+        this.imgRoot = CommonUtil.getImgPath();
     }
 
     @Nullable
