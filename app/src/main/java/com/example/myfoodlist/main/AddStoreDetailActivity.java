@@ -43,6 +43,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private static final int DEFAULT_GALLERY_REQUEST_CODE = 1;
+    private static final int REQUEST_ADDR_API = 2;
     String currentImagePath = null;
     String imgName;
     Button btn_add_detail, btn_search_addr;
@@ -106,7 +107,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
                     //주소검색 웹 뷰를 띄울 DialogFragment 선언
 //                    navController.navigate(NavGraphDirections.actionGlobalRoadAddressSearchDialog());
                     Intent postCodeIntent = new Intent(AddStoreDetailActivity.this, SearchAddrActivity.class);
-                    startActivity(postCodeIntent);
+                    startActivityForResult(postCodeIntent, REQUEST_ADDR_API);
                 }else {
                     Toast.makeText(AddStoreDetailActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -219,7 +220,7 @@ public class AddStoreDetailActivity extends AppCompatActivity {
         startActivityForResult(intent, DEFAULT_GALLERY_REQUEST_CODE);
     }
 
-    //위도/경도로 주소 값 가져오기.
+    //위도,경도로 주소 값 가져오기.
     private String getAddress(LatLng latLng){
         Geocoder geocoder = new Geocoder(AddStoreDetailActivity.this, Locale.KOREA);
         String addr = "";
@@ -231,6 +232,20 @@ public class AddStoreDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return addr;
+    }
+
+    private LatLng getLatLng(String addr){
+        LatLng latLng = null;
+        Geocoder geocoder = new Geocoder(AddStoreDetailActivity.this, Locale.KOREA);
+        try{
+            List<Address> fromLocationName = geocoder.getFromLocationName(addr, 1);
+            latitude = fromLocationName.get(0).getLatitude();
+            longitude = fromLocationName.get(0).getLongitude();
+            latLng = new LatLng(latitude, longitude);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return latLng;
     }
 
 
@@ -266,6 +281,12 @@ public class AddStoreDetailActivity extends AppCompatActivity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        if(requestCode == REQUEST_ADDR_API){
+            String addr = data.getStringExtra("addr");
+            LatLng latLng = getLatLng(addr);
+            et_addr.setText(addr);
         }
     }
 

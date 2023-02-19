@@ -58,14 +58,12 @@ public class SearchAddrActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     txt_address.setText(addr);
-
-                    Log.d("주소 : ", addr);
                     // WebView를 초기화 하지않으면 재사용할 수 없음
                     init_webView();
-
                     Intent intent = new Intent(SearchAddrActivity.this, AddStoreDetailActivity.class);
                     intent.putExtra("addr", addr);
-                    startActivity(intent);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             });
         }
